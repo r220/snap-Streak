@@ -1,6 +1,4 @@
 import pyautogui as pag
-import time
-pag.FAILSAFE = True
 
 def get_position(image: str):
     try:
@@ -24,53 +22,49 @@ def click(image: str):
     position = get_position(image)
     pag.moveTo(position, duration=0.2)
     pag.click(position)
-    print(position, "OPENED !!!\n")
-
-def select_users():
-    names = ["reemas_r35", "RAHAF", "D I N A", "re.zh97", "SHAHAD", "Jawaher", "Riri"]
-    for name in names:
-        pag.write(name)
-        click("block.png")
-        click("delete.png")
-        click("search.png")
 
 if __name__ == '__main__':
 
-    #while pag.FAILSAFE:
+    # 1- open SNAPCHAT
+    click("app.png")
+    pag.sleep(15)
 
-        # 1- open SNAPCHAT
-        click("app.png")
-        pag.sleep(15)
-
-        # 2- click snap button twice
+    # 2- click snap button twice
+    try:
+        click("snap2.png")
+    except pag.ImageNotFoundException:
         try:
+            click("snap1.png")
+            pag.sleep(6)
             click("snap2.png")
         except pag.ImageNotFoundException:
-            try:
-                click("snap1.png")
-                pag.sleep(6)
-                click("snap2.png")
-            except pag.ImageNotFoundException:
-                click("snap2.png")
+            click("snap2.png")
 
-        pag.sleep(0.15)
+    pag.sleep(0.15)
 
-        # -- text --
-        click("text.png")
-        pag.write("this is a snap from my computer machine !")
-        pag.sleep(0.2)
+    # -- text --
+    click("text.png")
+    pag.write("this is a snap from my computer machine !")
+    pag.sleep(0.2)
 
-        # 3- click 'send to' button
-        click("sendTo.png")
-        pag.sleep(0.3)
+    # 3- click 'send to' button
+    click("sendTo.png")
+    pag.sleep(0.5)
 
-        # 4- detect friends with fire sign
-        click("search.png")
-        select_users()
+    # 4- click 'shortcut' icon
+    click("shortcut.png")
+    pag.sleep(0.3)
 
-        # 5- SEND
-        click("finalSend.png")
+    # 5- click on users
+    try:
+        while (True):
+            click("block.png")
+    except Exception:
+        print("user")
 
-        # 6- close SNAPCHAT
-        pag.moveTo(get_position("quit1.png"), duration=0.2)
-        pag.click(get_position("quit1.png"))
+    # 5- SEND
+    #click("finalSend.png")
+
+    # 6- close SNAPCHAT
+    pag.moveTo(get_position("quit1.png"), duration=0.2)
+    pag.click(get_position("quit1.png"))
