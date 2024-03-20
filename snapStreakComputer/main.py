@@ -1,8 +1,12 @@
 import pyautogui as pag
 
+
 def get_position(image: str):
     try:
-        position = pag.locateCenterOnScreen(image, confidence=0.7)
+        if image != "finalSend.png":
+            position = pag.locateCenterOnScreen(image, confidence=0.7)
+        else:
+            position = pag.locateCenterOnScreen(image, confidence=0.9)
         if position is None:
             print(f'{image} not found on screen')
             return None
@@ -10,7 +14,7 @@ def get_position(image: str):
             x = position[0] / 2
             y = position[1] / 2
             if image != "quit1.png":
-                return x,y
+                return x, y
             else:
                 return x - 22, y - 22
 
@@ -18,10 +22,13 @@ def get_position(image: str):
         print(f'there is no such file as {image}')
         raise Exception(e)
 
+
 def click(image: str):
     position = get_position(image)
     pag.moveTo(position, duration=0.2)
     pag.click(position)
+    print("successful !!")
+
 
 if __name__ == '__main__':
 
@@ -49,13 +56,11 @@ if __name__ == '__main__':
 
     # 3- click 'send to' button
     click("sendTo.png")
-    pag.sleep(0.5)
+    pag.sleep(1)
 
-    # 4- click 'shortcut' icon
+    # 4- click 'shortcut' icon and choose users
     click("shortcut.png")
     pag.sleep(0.3)
-
-    # 5- click on users
     try:
         while (True):
             click("block.png")
@@ -63,7 +68,7 @@ if __name__ == '__main__':
         print("user")
 
     # 5- SEND
-    #click("finalSend.png")
+    click("finalSend.png")
 
     # 6- close SNAPCHAT
     pag.moveTo(get_position("quit1.png"), duration=0.2)
